@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <h2 class="text-primary">Link Your FLOW Account</h2>
-    <p>Enter your FLOW account number below to link it to your profile. Only accounts verified on the FLOW/SAGICOR LIFE platform can be linked.</p>
+    <p>Enter your FLOW account number below to link it to your profile. Only accounts verified on the FLOW platform can be linked.</p>
 
     <!-- Input Section -->
     <div class="form-group">

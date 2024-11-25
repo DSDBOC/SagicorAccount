@@ -59,7 +59,7 @@ namespace SagicorAccount.Account
                 }
                 else
                 {
-                    lblMessage.Text = "The account does not exist on the FLOW/SAGICOR LIFE platform.";
+                    lblMessage.Text = "The account does not exist on the FLOW platform.";
                     lblMessage.CssClass = "text-danger";
                 }
             }
@@ -125,7 +125,11 @@ namespace SagicorAccount.Account
         private void LinkAccountToUser(string flowAccountNumber)
         {
             string userID = Session["UserID"] as string;
-            string query = "INSERT INTO LinkedAccounts (UserID, FlowAccountNumber) VALUES (@UserID, @FlowAccountNumber)";
+
+            // Retrieve the BankAccountID for the user (you might need to fetch this depending on your logic)
+            Guid bankAccountID = GetBankAccountID(userID);
+
+            string query = "INSERT INTO LinkedAccounts (UserID, BankAccountID, FlowAccountNumber) VALUES (@UserID, @BankAccountID, @FlowAccountNumber)";
 
             // Use transaction to ensure data consistency
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SagicorLifeConnectionString"].ConnectionString))
@@ -138,6 +142,7 @@ namespace SagicorAccount.Account
                     using (SqlCommand cmd = new SqlCommand(query, conn, transaction))
                     {
                         cmd.Parameters.AddWithValue("@UserID", userID);
+                        cmd.Parameters.AddWithValue("@BankAccountID", bankAccountID);  // Pass BankAccountID
                         cmd.Parameters.AddWithValue("@FlowAccountNumber", flowAccountNumber);
                         cmd.ExecuteNonQuery();
                     }
@@ -151,6 +156,31 @@ namespace SagicorAccount.Account
                     transaction.Rollback();
                     System.Diagnostics.Debug.WriteLine("Error linking account: " + ex.Message);
                     throw new ApplicationException("There was an error linking the account.");
+                }
+            }
+        }
+
+        private Guid GetBankAccountID(string userID)
+        {
+            // Example logic to retrieve the BankAccountID for the user (you will need to implement this based on your system)
+            string query = "SELECT AccountID FROM BankAccounts WHERE UserID = @UserID";
+
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SagicorLifeConnectionString"].ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@UserID", userID);
+                    conn.Open();
+
+                    var result = cmd.ExecuteScalar();
+                    if (result != null)
+                    {
+                        return (Guid)result;
+                    }
+                    else
+                    {
+                        throw new ApplicationException("No bank account found for the user.");
+                    }
                 }
             }
         }

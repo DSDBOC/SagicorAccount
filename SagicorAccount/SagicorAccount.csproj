@@ -100,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <Content Include="Account\AccountService.asmx" />
     <Content Include="Account\AddBankAccount.aspx" />
     <Content Include="Account\FlowService.asmx" />
     <Content Include="Account\LinkAccount.aspx" />
@@ -195,6 +196,10 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account\AccountService.asmx.cs">
+      <DependentUpon>AccountService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Account\AddBankAccount.aspx.cs">
       <DependentUpon>AddBankAccount.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
