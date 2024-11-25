@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35303.130
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SagicorAccount", "SagicorAccount\SagicorAccount.csproj", "{D1794BA0-854D-4D35-9EE8-264DC36944EF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D1794BA0-854D-4D35-9EE8-264DC36944EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1794BA0-854D-4D35-9EE8-264DC36944EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1794BA0-854D-4D35-9EE8-264DC36944EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1794BA0-854D-4D35-9EE8-264DC36944EF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FBE83E1D-4D38-4EC8-8AF9-81ADF1F5C541}
+	EndGlobalSection
+EndGlobal
