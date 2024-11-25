@@ -71,7 +71,7 @@
         </a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
             <li><a class="dropdown-item" href="/Account/WebForm1">Dashboard</a></li>
-            <li><a class="dropdown-item" href="Account/AddBankAccount.aspx">Add Bank Account</a></li>
+            <li><a class="dropdown-item" href="/Account/AddBankAccount.aspx">Add Bank Account</a></li>
             <li><a class="dropdown-item" href="/Account/LinkAccount.aspx">Link Accounts</a></li>
             <li><a class="dropdown-item" href="/Account/MakePayments.aspx">Make Payments</a></li>
             <li><a class="dropdown-item" href="/Account/ViewBankAccountDetails.aspx">Add Bank Accounts</a></li>
