@@ -7,47 +7,38 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SagicorAccount
+namespace SagicorAccount.Account
 {
 
 
-    public partial class SiteMaster
+    public partial class UserDashboard
     {
 
         /// <summary>
-        /// navRegister control.
+        /// FailureText control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl navRegister;
+        protected global::System.Web.UI.WebControls.Label FailureText;
 
         /// <summary>
-        /// navLogin control.
+        /// gvBankAccounts control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl navLogin;
+        protected global::System.Web.UI.WebControls.GridView gvBankAccounts;
 
         /// <summary>
-        /// navAccount control.
+        /// btnLogOut control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl navAccount;
-
-        /// <summary>
-        /// MainContent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
+        protected global::System.Web.UI.WebControls.Button btnLogOut;
     }
 }

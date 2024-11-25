@@ -8,18 +8,19 @@ namespace SagicorAccount.Account
 {
     public partial class UserDashboard : Page
     {
-        // Updated connection string
+        // Connection string to the database
         private string connectionString = ConfigurationManager.ConnectionStrings["SagicorLifeConnectionString"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                // Load the user's bank accounts
+                // Load the user's bank accounts if user is logged in
                 LoadBankAccounts();
             }
         }
 
+        // Method to load the user's bank accounts
         private void LoadBankAccounts()
         {
             // Ensure the user is logged in
@@ -29,37 +30,40 @@ namespace SagicorAccount.Account
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    // Query to fetch bank account details for the user
-                    string query = "SELECT AccountType, Balance, AccountNumber FROM BankAccounts WHERE UserID = @UserID";
+                    // Query to fetch the bank account details for the user from the BankAccounts table
+                    string query = @"
+                        SELECT AccountID, AccountType, Balance, AccountNumber 
+                        FROM BankAccounts 
+                        WHERE UserID = @UserID";
+
                     SqlCommand cmd = new SqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@UserID", userID);
 
                     try
                     {
                         conn.Open();
-
                         SqlDataReader reader = cmd.ExecuteReader();
 
-                        // Load data into a DataTable
+                        // Load the data into a DataTable
                         DataTable dt = new DataTable();
                         dt.Load(reader);
 
-                        // Bind the DataTable to GridView for display
-                        gvBankAccountss.DataSource = dt;
-                        gvBankAccountss.DataBind();
+                        // Bind the DataTable to GridView to display the data
+                        gvBankAccounts.DataSource = dt;
+                        gvBankAccounts.DataBind();
                     }
                     catch (Exception ex)
                     {
-                        // Log and handle errors gracefully
+                        // Log the error and display a user-friendly message if necessary
                         System.Diagnostics.Debug.WriteLine("Error loading bank accounts: " + ex.Message);
-                        // Display a user-friendly message if necessary
+                        // Optionally, show an error message in a label or alert on the page
                     }
                 }
             }
             else
             {
-                // Redirect to login if session is invalid
-                Response.Redirect("~/Account/Login");
+                // If the user is not logged in, redirect to the login page
+                Response.Redirect("~/Account/Login.aspx");
             }
         }
     }

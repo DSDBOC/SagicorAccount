@@ -100,10 +100,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
-    <Content Include="Accounts\Login.aspx" />
-    <Content Include="Accounts\Register.aspx" />
-    <Content Include="Accounts\UserDashboard.aspx" />
-    <Content Include="Accounts\ViewBankAccountDetails.aspx" />
+    <Content Include="Account\AddBankAccount.aspx" />
+    <Content Include="Account\LinkAccount.aspx" />
+    <Content Include="Account\Login.aspx" />
+    <Content Include="Account\MakePayments.aspx" />
+    <Content Include="Account\Manage.aspx" />
+    <Content Include="Account\Register.aspx" />
+    <Content Include="Account\ViewBankAccountDetails.aspx" />
+    <Content Include="Account\WebForm1.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -189,33 +193,61 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Accounts\Login.aspx.cs">
+    <Compile Include="Account\AddBankAccount.aspx.cs">
+      <DependentUpon>AddBankAccount.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\AddBankAccount.aspx.designer.cs">
+      <DependentUpon>AddBankAccount.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\LinkAccount.aspx.cs">
+      <DependentUpon>LinkAccount.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\LinkAccount.aspx.designer.cs">
+      <DependentUpon>LinkAccount.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Accounts\Login.aspx.designer.cs">
+    <Compile Include="Account\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Accounts\Register.aspx.cs">
+    <Compile Include="Account\MakePayments.aspx.cs">
+      <DependentUpon>MakePayments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\MakePayments.aspx.designer.cs">
+      <DependentUpon>MakePayments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\Manage.aspx.cs">
+      <DependentUpon>Manage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\Manage.aspx.designer.cs">
+      <DependentUpon>Manage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\Register.aspx.cs">
       <DependentUpon>Register.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Accounts\Register.aspx.designer.cs">
+    <Compile Include="Account\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Accounts\UserDashboard.aspx.cs">
-      <DependentUpon>UserDashboard.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Accounts\UserDashboard.aspx.designer.cs">
-      <DependentUpon>UserDashboard.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Accounts\ViewBankAccountDetails.aspx.cs">
+    <Compile Include="Account\ViewBankAccountDetails.aspx.cs">
       <DependentUpon>ViewBankAccountDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Accounts\ViewBankAccountDetails.aspx.designer.cs">
+    <Compile Include="Account\ViewBankAccountDetails.aspx.designer.cs">
       <DependentUpon>ViewBankAccountDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="About.aspx.cs">

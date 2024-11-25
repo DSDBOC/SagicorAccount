@@ -11,7 +11,7 @@ namespace SagicorAccount.Account
 {
 
 
-    public partial class UserDashboard
+    public partial class WebForm1
     {
 
         /// <summary>
@@ -24,30 +24,12 @@ namespace SagicorAccount.Account
         protected global::System.Web.UI.WebControls.Label lblUserID;
 
         /// <summary>
-        /// lblEmail control.
+        /// lblFullName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblEmail;
-
-        /// <summary>
-        /// lblUsername control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblUsername;
-
-        /// <summary>
-        /// gvBankAccountss control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvBankAccountss;
+        protected global::System.Web.UI.WebControls.Label lblFullName;
     }
 }

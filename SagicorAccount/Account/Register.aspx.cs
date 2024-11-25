@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Configuration; // For accessing the connection string
-using System.Data.SqlClient; // For ADO.NET database operations
+using System.Data.SqlClient; // For database operations
+using System.Security.Cryptography; // For password hashing
+using System.Text; // For encoding
 using System.Web.UI;
 
 namespace SagicorAccount.Account
@@ -9,7 +11,7 @@ namespace SagicorAccount.Account
     {
         protected void CreateUser_Click(object sender, EventArgs e)
         {
-            // Validate form inputs
+            // Validate inputs
             if (!Page.IsValid)
             {
                 ErrorMessage.Text = "Please correct the errors and try again.";
@@ -22,17 +24,17 @@ namespace SagicorAccount.Account
             string email = Email.Text.Trim();
             string password = Password.Text.Trim();
 
-            // Hash the password (for security)
+            // Hash the password
             string passwordHash = HashPassword(password);
 
-            // Connection string from Web.config
+            // Retrieve the connection string
             string connectionString = ConfigurationManager.ConnectionStrings["SagicorLifeConnectionString"].ConnectionString;
 
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    // Check if the username or email already exists
+                    // Check if username or email already exists
                     string checkUserQuery = "SELECT COUNT(*) FROM AspNetUsers WHERE UserName = @UserName OR Email = @Email";
                     SqlCommand checkUserCommand = new SqlCommand(checkUserQuery, connection);
                     checkUserCommand.Parameters.AddWithValue("@UserName", userName);
@@ -47,7 +49,7 @@ namespace SagicorAccount.Account
                         return;
                     }
 
-                    // Insert new user into AspNetUsers table
+                    // Insert new user
                     string insertQuery = @"
                         INSERT INTO AspNetUsers 
                         (Id, FirstName, LastName, UserName, Email, EmailConfirmed, PasswordHash, SecurityStamp, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnabled, AccessFailedCount) 
@@ -56,8 +58,9 @@ namespace SagicorAccount.Account
 
                     SqlCommand insertCommand = new SqlCommand(insertQuery, connection);
 
-                    // Generate a unique ID for the user
+                    // Generate unique values
                     string userId = Guid.NewGuid().ToString();
+                    string securityStamp = Guid.NewGuid().ToString();
 
                     insertCommand.Parameters.AddWithValue("@Id", userId);
                     insertCommand.Parameters.AddWithValue("@FirstName", firstName);
@@ -66,32 +69,34 @@ namespace SagicorAccount.Account
                     insertCommand.Parameters.AddWithValue("@Email", email);
                     insertCommand.Parameters.AddWithValue("@EmailConfirmed", false);
                     insertCommand.Parameters.AddWithValue("@PasswordHash", passwordHash);
-                    insertCommand.Parameters.AddWithValue("@SecurityStamp", Guid.NewGuid().ToString());
+                    insertCommand.Parameters.AddWithValue("@SecurityStamp", securityStamp);
                     insertCommand.Parameters.AddWithValue("@PhoneNumberConfirmed", false);
                     insertCommand.Parameters.AddWithValue("@TwoFactorEnabled", false);
                     insertCommand.Parameters.AddWithValue("@LockoutEnabled", false);
                     insertCommand.Parameters.AddWithValue("@AccessFailedCount", 0);
 
-                    // Execute the insert query
                     insertCommand.ExecuteNonQuery();
 
-                    // Redirect to login page with success message
-                    Response.Redirect("~/Accounts/UserDashboard.aspx");
+                    // Redirect to login or success page
+                    Response.Redirect("~/Account/Login.aspx");
                 }
             }
             catch (Exception ex)
             {
-                // Display a generic error message and log the exception for debugging
-                ErrorMessage.Text = "An error occurred while creating the account. Please try again later.";
+                // Handle exceptions
+                ErrorMessage.Text = "An error occurred while creating the account. Please try again.";
                 System.Diagnostics.Debug.WriteLine("Error: " + ex.Message);
             }
         }
 
-        // Helper method to hash passwords
+        // Hash the password using SHA256
         private string HashPassword(string password)
         {
-            // For simplicity, using SHA256 hashing (use a stronger library for production)
-            return Convert.ToBase64String(System.Security.Cryptography.SHA256.Create().ComputeHash(System.Text.Encoding.UTF8.GetBytes(password)));
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return Convert.ToBase64String(hashedBytes);
+            }
         }
     }
 }

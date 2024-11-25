@@ -13,6 +13,9 @@ namespace SagicorAccount
             var settings = new FriendlyUrlSettings();
             settings.AutoRedirectMode = RedirectMode.Permanent;
             routes.EnableFriendlyUrls(settings);
+
+            // Explicit route for Login page
+            routes.MapPageRoute("LoginRoute", "Accounts/Login", "~/Accounts/Login.aspx");
         }
     }
 }
