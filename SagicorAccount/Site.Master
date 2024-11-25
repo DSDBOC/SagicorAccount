@@ -74,7 +74,7 @@
             <li><a class="dropdown-item" href="/Account/AddBankAccount.aspx">Add Bank Account</a></li>
             <li><a class="dropdown-item" href="/Account/LinkAccount.aspx">Link Accounts</a></li>
             <li><a class="dropdown-item" href="/Account/MakePayments.aspx">Make Payments</a></li>
-            <li><a class="dropdown-item" href="/Account/ViewBankAccountDetails.aspx">Add Bank Accounts</a></li>
+            <li><a class="dropdown-item" href="/Account/ViewBankAccountDetails.aspx">View Bank Accounts</a></li>
             <li><a class="dropdown-item" href="/Account/Manage.aspx">Settings</a></li>
         </ul>
     </li>

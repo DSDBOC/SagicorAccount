@@ -101,6 +101,7 @@
   <ItemGroup>
     <Content Include="About.aspx" />
     <Content Include="Account\AddBankAccount.aspx" />
+    <Content Include="Account\FlowService.asmx" />
     <Content Include="Account\LinkAccount.aspx" />
     <Content Include="Account\Login.aspx" />
     <Content Include="Account\MakePayments.aspx" />
@@ -199,6 +200,10 @@
     </Compile>
     <Compile Include="Account\AddBankAccount.aspx.designer.cs">
       <DependentUpon>AddBankAccount.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\FlowService.asmx.cs">
+      <DependentUpon>FlowService.asmx</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Account\LinkAccount.aspx.cs">
       <DependentUpon>LinkAccount.aspx</DependentUpon>
