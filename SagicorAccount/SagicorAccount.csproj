@@ -106,6 +106,7 @@
     <Content Include="Account\Login.aspx" />
     <Content Include="Account\MakePayments.aspx" />
     <Content Include="Account\Manage.aspx" />
+    <Content Include="Account\PaymentService.asmx" />
     <Content Include="Account\Register.aspx" />
     <Content Include="Account\ViewBankAccountDetails.aspx" />
     <Content Include="Account\WebForm1.aspx" />
@@ -232,6 +233,10 @@
     </Compile>
     <Compile Include="Account\Manage.aspx.designer.cs">
       <DependentUpon>Manage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\PaymentService.asmx.cs">
+      <DependentUpon>PaymentService.asmx</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Account\Register.aspx.cs">
       <DependentUpon>Register.aspx</DependentUpon>

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="AddBankAccount.aspx.cs" Inherits="SagicorAccount.Account.AddBankAccount" %>
+﻿<%@ Page Title="Add Bank Account" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="AddBankAccount.aspx.cs" Inherits="SagicorAccount.Account.AddBankAccount" %>
 
 <asp:Content runat="server" ID="BodyContent" ContentPlaceHolderID="MainContent">
     <h2>Add Bank Account</h2>
