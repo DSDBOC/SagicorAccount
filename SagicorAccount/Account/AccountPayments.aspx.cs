@@ -35,12 +35,11 @@ namespace SagicorAccount.Account
             {
                 lblPaymentStatus.Text = "User not logged in.";
                 lblPaymentStatus.CssClass = "text-danger";
-                lblPaymentStatus.Visible = true;
                 return;
             }
 
-            // Query to fetch the linked bank accounts for the logged-in user
-            string query = "SELECT ba.AccountID, ba.DisplayName FROM BankAccounts ba " +
+            // Query to fetch the linked bank accounts for the logged-in user, showing AccountID and AccountNumber
+            string query = "SELECT ba.AccountID, ba.AccountNumber FROM BankAccounts ba " +
                            "INNER JOIN LinkedAccounts la ON ba.AccountID = la.BankAccountID " +
                            "WHERE la.UserID = @UserID";
 
@@ -54,31 +53,31 @@ namespace SagicorAccount.Account
                     SqlDataReader reader = cmd.ExecuteReader();
                     if (reader.HasRows)
                     {
-                        // Clear existing items
+                        // Clear existing items in DropDownList
                         ddlLinkedAccounts.Items.Clear();
 
                         // Add default item
                         ddlLinkedAccounts.Items.Add(new ListItem("Select a bank account", ""));
 
-                        // Loop through the linked accounts and add them to the dropdown
+                        // Loop through the linked accounts and add them to the DropDownList
                         while (reader.Read())
                         {
                             string accountID = reader["AccountID"].ToString();
-                            string displayName = reader["DisplayName"].ToString();
+                            string accountNumber = reader["AccountNumber"].ToString();
 
-                            // Create a ListItem and add to DropDownList
-                            ddlLinkedAccounts.Items.Add(new ListItem(displayName, accountID));
+                            // Create a ListItem with AccountNumber as Text and AccountID as Value
+                            ddlLinkedAccounts.Items.Add(new ListItem(accountNumber, accountID));
                         }
                     }
                     else
                     {
                         lblPaymentStatus.Text = "No linked bank accounts found.";
                         lblPaymentStatus.CssClass = "text-danger";
-                        lblPaymentStatus.Visible = true;
                     }
                 }
             }
         }
+
 
 
 

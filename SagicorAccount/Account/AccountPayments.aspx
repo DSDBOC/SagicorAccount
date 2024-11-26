@@ -9,14 +9,16 @@
 
         <!-- Payment Form Panel -->
         <asp:Panel ID="pnlPaymentForm" runat="server">
-            <div class="form-group">
-                <label for="ddlLinkedAccounts">Select Linked Bank Account</label>
-                <asp:DropDownList ID="ddlLinkedAccounts" runat="server" class="form-control">
-                    <asp:ListItem Text="Select a bank account" Value="" />
-                </asp:DropDownList>
-            </div>
 
-            <<div class="form-group">
+            <div class="form-group">
+            <label for="ddlLinkedAccounts">Select Linked Bank Account</label>
+            <asp:DropDownList ID="ddlLinkedAccounts" runat="server" class="form-control">
+                <asp:ListItem Text="Select a bank account" Value="" />
+            </asp:DropDownList>
+        </div>
+
+
+            <div class="form-group">
     <label for="ddlFlowAccountNumber">Select Flow Account Number</label>
     <asp:DropDownList ID="ddlFlowAccountNumber" runat="server" class="form-control">
         <asp:ListItem Text="Select Flow Account" Value="" />
