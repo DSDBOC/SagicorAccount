@@ -11,7 +11,7 @@ namespace SagicorAccount.Account
     [System.ComponentModel.ToolboxItem(false)]
     public class PaymentService : System.Web.Services.WebService
     {
-        // Fetch the actual connection string from Web.config
+        
         private readonly string connectionString = ConfigurationManager.ConnectionStrings["SagicorLifeConnectionString"].ConnectionString;
 
         [WebMethod]

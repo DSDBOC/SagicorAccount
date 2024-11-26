@@ -103,6 +103,7 @@
     <Content Include="Account\FlowService.asmx" />
     <Content Include="Account\LinkingAcc.aspx" />
     <Content Include="Account\Login.aspx" />
+    <Content Include="Account\Logout.aspx" />
     <Content Include="Account\Manage.aspx" />
     <Content Include="Account\PaymentService.asmx" />
     <Content Include="Account\Register.aspx" />
@@ -130,7 +131,6 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ILLink\ILLink.Descriptors.LibraryBuild.xml" />
-    <Content Include="Logout.aspx" />
     <Content Include="MockServices\MockAccountService.asmx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -236,6 +236,13 @@
     <Compile Include="Account\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Account\Logout.aspx.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\Logout.aspx.designer.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Account\Manage.aspx.cs">
       <DependentUpon>Manage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -302,13 +309,6 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Logout.aspx.cs">
-      <DependentUpon>Logout.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Logout.aspx.designer.cs">
-      <DependentUpon>Logout.aspx</DependentUpon>
     </Compile>
     <Compile Include="MockServices\MockAccountService.asmx.cs">
       <DependentUpon>MockAccountService.asmx</DependentUpon>

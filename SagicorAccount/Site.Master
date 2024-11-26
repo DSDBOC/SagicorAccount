@@ -56,13 +56,13 @@
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Contact">Contact</a></li>
                     </ul>
                      <ul class="navbar-nav ms-auto">
-    <!-- Show Register and Login for Anonymous Users -->
-    <li id="navRegister" runat="server" class="nav-item">
-        <a class="nav-link" href="/Account/Register.aspx">Register</a>
-    </li>
-    <li id="navLogin" runat="server" class="nav-item">
-        <a class="nav-link" href="/Account/Login.aspx">Log in</a>
-    </li>
+                    <!-- Show Register and Login for Anonymous Users -->
+                    <li id="navRegister" runat="server" class="nav-item">
+                        <a class="nav-link" href="/Account/Register.aspx">Register</a>
+                    </li>
+                    <li id="navLogin" runat="server" class="nav-item">
+                        <a class="nav-link" href="/Account/Login.aspx">Log in</a>
+                    </li>
 
     <!-- Show Account Dropdown for Logged-In Users -->
     <li id="navAccount" runat="server" class="nav-item dropdown" visible="false">
