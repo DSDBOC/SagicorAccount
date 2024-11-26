@@ -17,11 +17,7 @@ namespace SagicorAccount.Account
     public class AccountService : System.Web.Services.WebService
     {
 
-        [WebMethod]
-        public string HelloWorld()
-        {
-            return "Hello World";
-        }
+        
 
         /// <summary>
         /// Checks if an account exists based on the provided account number.

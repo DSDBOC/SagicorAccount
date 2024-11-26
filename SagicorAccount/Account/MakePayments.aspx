@@ -4,15 +4,14 @@
     <h2>Make a Payment</h2>
 
     <div class="form-group">
-        <label for="ddlLinkedAccounts">Select Linked Account:</label>
-        <asp:DropDownList ID="ddlLinkedAccounts" runat="server" CssClass="form-control"></asp:DropDownList>
+        <label for="lblBankAccount">Bank Account:</label>
+        <asp:Label ID="lblBankAccount" runat="server" CssClass="form-control"></asp:Label>
     </div>
 
     <div class="form-group">
-    <label for="txtFlowAccountNumber">FLOW Account Number:</label>
-    <asp:TextBox ID="txtFlowAccountNumber" runat="server" CssClass="form-control"></asp:TextBox>
-</div>
-
+        <label for="txtFlowAccountNumber">FLOW Account Number:</label>
+        <asp:TextBox ID="txtFlowAccountNumber" runat="server" CssClass="form-control"></asp:TextBox>
+    </div>
 
     <div class="form-group">
         <label for="txtPaymentAmount">Payment Amount:</label>
@@ -26,4 +25,6 @@
     <div class="alert" role="alert">
         <asp:Label ID="lblPaymentStatus" runat="server" CssClass="text-info"></asp:Label>
     </div>
+
+    <asp:HiddenField ID="hfBankAccountNumber" runat="server" />
 </asp:Content>

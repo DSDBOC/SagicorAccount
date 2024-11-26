@@ -15,13 +15,13 @@ namespace SagicorAccount.Account
     {
 
         /// <summary>
-        /// ddlLinkedAccounts control.
+        /// lblBankAccount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlLinkedAccounts;
+        protected global::System.Web.UI.WebControls.Label lblBankAccount;
 
         /// <summary>
         /// txtFlowAccountNumber control.
@@ -58,5 +58,14 @@ namespace SagicorAccount.Account
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblPaymentStatus;
+
+        /// <summary>
+        /// hfBankAccountNumber control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfBankAccountNumber;
     }
 }
