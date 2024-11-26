@@ -7,6 +7,8 @@ namespace SagicorAccount.Account
 {
     public partial class MakePayments : System.Web.UI.Page
     {
+        PaymentService paymentService = new PaymentService();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -51,11 +53,9 @@ namespace SagicorAccount.Account
                         string accountNumber = reader["AccountNumber"].ToString();
                         string displayName = reader["DisplayName"].ToString();
 
-                        // Here, you can set the selected account directly if only one account is linked
-                        lblBankAccount.Text = "Bank Account: " + displayName; // or display it in a label
-
-                        // You could also set the account number in a hidden field for use later if needed
-                        hfBankAccountNumber.Value = accountNumber; // hidden field to store the account number
+                        // Display the bank account info
+                        lblBankAccount.Text = "Bank Account: " + displayName;
+                        hfBankAccountNumber.Value = accountNumber; // Store the account number in the hidden field
                     }
                     else
                     {
@@ -68,35 +68,66 @@ namespace SagicorAccount.Account
 
         protected void btnSubmitPayment_Click(object sender, EventArgs e)
         {
-            string flowAccountNumber = txtFlowAccountNumber.Text;
+            string bankAccountNumber = txtBankAccountNumber.Text.Trim();  // Get the bank account number from user input
+            string flowAccountNumber = txtFlowAccountNumber.Text.Trim();  // Get the flow account number
             decimal paymentAmount;
 
-            // Validate payment details
-            if (string.IsNullOrEmpty(flowAccountNumber) || !decimal.TryParse(txtPaymentAmount.Text, out paymentAmount))
+            // Validate the payment amount
+            if (decimal.TryParse(txtPaymentAmount.Text.Trim(), out paymentAmount) && paymentAmount > 0)
             {
-                lblPaymentStatus.Text = "Please provide valid details for the payment.";
-                lblPaymentStatus.CssClass = "text-danger";
-                return;
+                // Validate if entered bank account matches the linked bank account
+                if (bankAccountNumber != hfBankAccountNumber.Value)
+                {
+                    lblPaymentStatus.Text = "Bank Account number does not match the linked account.";
+                    lblPaymentStatus.CssClass = "text-danger";
+                    return;
+                }
+
+                try
+                {
+                    // Query the LinkedAccounts table to validate the FlowAccountNumber
+                    string query = "SELECT * FROM LinkedAccounts WHERE FlowAccountNumber = @FlowAccountNumber";
+                    using (SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["SagicorLifeConnectionString"].ConnectionString))
+                    {
+                        using (SqlCommand cmd = new SqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@FlowAccountNumber", flowAccountNumber);
+                            conn.Open();
+
+                            SqlDataReader reader = cmd.ExecuteReader();
+                            if (!reader.HasRows)
+                            {
+                                lblPaymentStatus.Text = "Invalid FLOW account number.";
+                                lblPaymentStatus.CssClass = "text-danger";
+                                return;
+                            }
+                        }
+                    }
+
+                    // Call the payment processing method after validation
+                    string result = paymentService.ProcessPayment(bankAccountNumber, flowAccountNumber, paymentAmount);
+
+                    // Display the result from the payment service
+                    lblPaymentStatus.Text = result;
+                    lblPaymentStatus.CssClass = result.StartsWith("Success") ? "text-success" : "text-danger";
+                    lblPaymentStatus.Visible = true;
+                }
+                catch (Exception ex)
+                {
+                    // Handle any errors that occur while calling the payment service
+                    lblPaymentStatus.Text = "Payment failed: " + ex.Message;
+                    lblPaymentStatus.CssClass = "text-danger";
+                    lblPaymentStatus.Visible = true;
+                }
             }
-
-            string userID = Session["UserID"] as string;
-            string bankAccountNumber = hfBankAccountNumber.Value;
-
-            if (string.IsNullOrEmpty(bankAccountNumber))
+            else
             {
-                lblPaymentStatus.Text = "No bank account linked to the user.";
+                lblPaymentStatus.Text = "Please enter a valid payment amount.";
                 lblPaymentStatus.CssClass = "text-danger";
-                return;
+                lblPaymentStatus.Visible = true;
             }
-
-            // Call the PaymentService to process the payment
-            PaymentService paymentService = new PaymentService();
-            string paymentResult = paymentService.ProcessPayment(userID, flowAccountNumber, paymentAmount);
-
-            lblPaymentStatus.Text = paymentResult;
-
-            // Display success or error class based on the result
-            lblPaymentStatus.CssClass = paymentResult.Contains("successful") ? "text-success" : "text-danger";
         }
+
     }
+
 }

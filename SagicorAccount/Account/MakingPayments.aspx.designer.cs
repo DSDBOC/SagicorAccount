@@ -11,70 +11,70 @@ namespace SagicorAccount.Account
 {
 
 
-    public partial class AddBankAccount
+    public partial class MakingPayments
     {
 
         /// <summary>
-        /// SuccessMessage control.
+        /// lblMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label SuccessMessage;
+        protected global::System.Web.UI.WebControls.Label lblMessage;
 
         /// <summary>
-        /// ErrorMessage control.
+        /// ddlBankAccounts control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label ErrorMessage;
+        protected global::System.Web.UI.WebControls.DropDownList ddlBankAccounts;
 
         /// <summary>
-        /// AddBankAccountPanel control.
+        /// ddlLinkedAccounts control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel AddBankAccountPanel;
+        protected global::System.Web.UI.WebControls.DropDownList ddlLinkedAccounts;
 
         /// <summary>
-        /// AccountType control.
+        /// txtAmount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList AccountType;
+        protected global::System.Web.UI.WebControls.TextBox txtAmount;
 
         /// <summary>
-        /// InitialBalance control.
+        /// rfvAmount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox InitialBalance;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvAmount;
 
         /// <summary>
-        /// DisplayName control.
+        /// revAmount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox DisplayName;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator revAmount;
 
         /// <summary>
-        /// AddAccountButton control.
+        /// btnMakePayment control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button AddAccountButton;
+        protected global::System.Web.UI.WebControls.Button btnMakePayment;
     }
 }

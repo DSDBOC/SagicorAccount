@@ -2,7 +2,11 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <h2 class="text-primary">Link Your FLOW Account</h2>
-    <p>Enter your FLOW account number below to link it to your profile. Only accounts verified on the FLOW platform can be linked.</p>
+    <p>Enter your FLOW account number below to link it to your profile. Only accounts on the FLOW platform can be linked.</p>
+
+    <div id="messageDiv">
+    <asp:Label ID="Label1" runat="server" CssClass="text-success" />
+</div>
 
     <!-- Input Section -->
     <div class="form-group">
@@ -38,7 +42,7 @@
     <h3 class="text-secondary">Account Details</h3>
     <div id="accountDetails" class="mt-3">
         <div class="form-group">
-            <label for="lblName">Name:</label>
+            
             <asp:Label 
                 ID="lblName" 
                 runat="server" 
@@ -47,7 +51,7 @@
                 aria-live="polite"></asp:Label>
         </div>
         <div class="form-group">
-            <label for="lblAccountNumber">Account Number:</label>
+            
             <asp:Label 
                 ID="lblAccountNumber" 
                 runat="server" 
@@ -56,7 +60,7 @@
                 aria-live="polite"></asp:Label>
         </div>
         <div class="form-group">
-            <label for="lblAccountType">Account Type:</label>
+            
             <asp:Label 
                 ID="lblAccountType" 
                 runat="server" 
@@ -65,7 +69,7 @@
                 aria-live="polite"></asp:Label>
         </div>
         <div class="form-group">
-            <label for="lblBalance">Balance:</label>
+            
             <asp:Label 
                 ID="lblBalance" 
                 runat="server" 

@@ -1,0 +1,14 @@
+﻿CREATE TABLE [dbo].[PaymentRequests] (
+    [RequestID]       INT              IDENTITY (1, 1) NOT NULL,
+    [UserID]          NVARCHAR (128)   NOT NULL,
+    [BankAccountID]   UNIQUEIDENTIFIER NOT NULL,
+    [LinkedAccountID] INT              NOT NULL,
+    [Amount]          DECIMAL (18, 2)  NOT NULL,
+    [PaymentStatus]   NVARCHAR (50)    NOT NULL,
+    [DateRequested]   DATETIME         NOT NULL,
+    PRIMARY KEY CLUSTERED ([RequestID] ASC),
+    FOREIGN KEY ([BankAccountID]) REFERENCES [dbo].[BankAccounts] ([AccountID]),
+    FOREIGN KEY ([UserID]) REFERENCES [dbo].[AspNetUsers] ([Id]),
+    FOREIGN KEY ([LinkedAccountID]) REFERENCES [dbo].[LinkedAccounts] ([LinkID])
+);
+

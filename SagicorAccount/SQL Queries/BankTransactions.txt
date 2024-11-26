@@ -1,0 +1,13 @@
+﻿CREATE TABLE [dbo].[BankTransactions] (
+    [TransactionID]   INT              IDENTITY (1, 1) NOT NULL,
+    [UserID]          NVARCHAR (128)   NOT NULL,
+    [BankAccountID]   UNIQUEIDENTIFIER NOT NULL,
+    [Amount]          DECIMAL (18, 2)  NOT NULL,
+    [TransactionType] NVARCHAR (50)    NOT NULL,
+    [Date]            DATETIME         NOT NULL,
+    [Narrative]       NVARCHAR (255)   NULL,
+    PRIMARY KEY CLUSTERED ([TransactionID] ASC),
+    FOREIGN KEY ([BankAccountID]) REFERENCES [dbo].[BankAccounts] ([AccountID]),
+    FOREIGN KEY ([UserID]) REFERENCES [dbo].[AspNetUsers] ([Id])
+);
+

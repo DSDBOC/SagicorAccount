@@ -26,10 +26,10 @@ namespace SagicorAccount.Class
             // Generate random 9-digit AccountNumber
             AccountNumber = random.Next(100000000, 999999999).ToString();
 
-            // Example of random UserID and AccountType
-            UserID = "user-id-here";  // Replace with actual UserID from your system
-            AccountType = "Savings";   // Example AccountType
-            Balance = 1000.00m;        // Example Balance
+            
+            UserID = "user-id-here";  
+            AccountType = "Savings";   
+            Balance = 1000.00m;        
         }
     }
 

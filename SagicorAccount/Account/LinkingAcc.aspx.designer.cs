@@ -11,70 +11,61 @@ namespace SagicorAccount.Account
 {
 
 
-    public partial class AddBankAccount
+    public partial class LinkingAcc
     {
 
         /// <summary>
-        /// SuccessMessage control.
+        /// lblSelectBankAccount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label SuccessMessage;
+        protected global::System.Web.UI.WebControls.Label lblSelectBankAccount;
 
         /// <summary>
-        /// ErrorMessage control.
+        /// ddlBankAccounts control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label ErrorMessage;
+        protected global::System.Web.UI.WebControls.DropDownList ddlBankAccounts;
 
         /// <summary>
-        /// AddBankAccountPanel control.
+        /// lblFlowAccountNumber control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel AddBankAccountPanel;
+        protected global::System.Web.UI.WebControls.Label lblFlowAccountNumber;
 
         /// <summary>
-        /// AccountType control.
+        /// txtFlowAccountNumber control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList AccountType;
+        protected global::System.Web.UI.WebControls.TextBox txtFlowAccountNumber;
 
         /// <summary>
-        /// InitialBalance control.
+        /// btnLinkAccount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox InitialBalance;
+        protected global::System.Web.UI.WebControls.Button btnLinkAccount;
 
         /// <summary>
-        /// DisplayName control.
+        /// lblMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox DisplayName;
-
-        /// <summary>
-        /// AddAccountButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button AddAccountButton;
+        protected global::System.Web.UI.WebControls.Label lblMessage;
     }
 }

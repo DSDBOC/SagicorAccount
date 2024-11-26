@@ -1,7 +1,9 @@
 ﻿using System;
-using System.Data.SqlClient;
+using System.Web;
 using System.Web.UI;
+using System.Web.Services;
 using System.Configuration;
+using System.Data.SqlClient;
 
 namespace SagicorAccount.Account
 {
@@ -66,16 +68,18 @@ namespace SagicorAccount.Account
             catch (Exception ex)
             {
                 // Log the exception (for debugging and monitoring)
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-                lblMessage.Text = "An error occurred. Please try again later.";
-                lblMessage.CssClass = "text-danger";
+                System.Diagnostics.Debug.WriteLine(ex.Message);  // This is just a log; consider logging to a file or DB for production
+                lblMessage.Text = "An error occurred. Please try again later. " + ex.Message;
+                lblMessage.CssClass = "text-danger"; // Optional: show more detailed error in the message
             }
         }
+
 
         private FlowService.AccountDetails VerifyAccountOnFlowService(string accountNumber)
         {
             try
             {
+                // Create an instance of the FlowService class and call the VerifyAccountExists web method
                 FlowService flowService = new FlowService();
                 return flowService.VerifyAccountExists(accountNumber);
             }

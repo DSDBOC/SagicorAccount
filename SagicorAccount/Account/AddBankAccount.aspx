@@ -18,6 +18,10 @@
             <label for="InitialBalance">Initial Balance:</label>
             <asp:TextBox ID="InitialBalance" runat="server" CssClass="form-control" TextMode="Number" Placeholder="Enter initial balance"></asp:TextBox>
         </div>
+        <div class="form-group">
+            <label for="DisplayName">Display Name:</label>
+            <asp:TextBox ID="DisplayName" runat="server" CssClass="form-control" Placeholder="Enter display name"></asp:TextBox>
+        </div>
         <asp:Button ID="AddAccountButton" runat="server" Text="Add Account" CssClass="btn btn-primary" OnClick="AddAccountButton_Click" />
     </asp:Panel>
 </asp:Content>

@@ -24,6 +24,24 @@ namespace SagicorAccount.Account
         protected global::System.Web.UI.WebControls.Label lblBankAccount;
 
         /// <summary>
+        /// txtBankAccountNumber control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtBankAccountNumber;
+
+        /// <summary>
+        /// rfvBankAccountNumber control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvBankAccountNumber;
+
+        /// <summary>
         /// txtFlowAccountNumber control.
         /// </summary>
         /// <remarks>
@@ -33,6 +51,15 @@ namespace SagicorAccount.Account
         protected global::System.Web.UI.WebControls.TextBox txtFlowAccountNumber;
 
         /// <summary>
+        /// rfvFlowAccountNumber control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvFlowAccountNumber;
+
+        /// <summary>
         /// txtPaymentAmount control.
         /// </summary>
         /// <remarks>
@@ -40,6 +67,24 @@ namespace SagicorAccount.Account
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtPaymentAmount;
+
+        /// <summary>
+        /// rfvPaymentAmount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvPaymentAmount;
+
+        /// <summary>
+        /// rvPaymentAmount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RangeValidator rvPaymentAmount;
 
         /// <summary>
         /// btnSubmitPayment control.
