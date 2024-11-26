@@ -189,6 +189,7 @@
     <Content Include="Site.Master" />
     <Content Include="SQL Queries\BankAccounts.txt" />
     <Content Include="SQL Queries\BankTransactions.txt" />
+    <Content Include="SQL Queries\DeleteQueries.txt" />
     <Content Include="SQL Queries\LinkedAccounts.txt" />
     <Content Include="SQL Queries\PaymentRequests.txt" />
     <Content Include="StyleSheets\Default.css" />

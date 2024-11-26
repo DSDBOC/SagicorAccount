@@ -1,0 +1,10 @@
+﻿DELETE FROM dbo.LinkedAccounts;
+
+DELETE FROM dbo.BankTransactions;
+
+DELETE FROM dbo.BankAccounts;
+
+
+
+
+
