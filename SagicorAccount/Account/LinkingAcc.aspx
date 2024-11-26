@@ -1,6 +1,11 @@
 ﻿<%@ Page Title="Link Account" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="LinkingAcc.aspx.cs" Inherits="SagicorAccount.Account.LinkingAcc" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+
+    
+    <link rel="stylesheet" type="text/css" href="../StyleSheets/LinkAcc.css" />
+
+
     <h2>Link Your FLOW Account</h2>
     
     <asp:Label ID="lblSelectBankAccount" runat="server" Text="Select Your Bank Account:" AssociatedControlID="ddlBankAccounts" />

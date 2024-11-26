@@ -1,6 +1,7 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="AccountPayments.aspx.cs" Inherits="SagicorAccount.Account.AccountPayments" %>
+﻿<%@ Page Title="Make Payment" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="AccountPayments.aspx.cs" Inherits="SagicorAccount.Account.AccountPayments" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <link rel="stylesheet" type="text/css" href="../StyleSheets/LinkAcc.css" />
     <div class="container mt-4">
         <h2>Make a Payment</h2>
         

@@ -3,6 +3,8 @@ using System.Data.SqlClient;
 using System.Web.Services;
 using System.Configuration;
 using System.Data;
+using System.IO;
+
 
 namespace SagicorAccount.Account
 {
@@ -84,14 +86,22 @@ namespace SagicorAccount.Account
                 }
                 catch (Exception ex)
                 {
-                    // Log the exception here (e.g., to a file or logging service)
-                    // LogError(ex); // Assuming LogError is a logging method
+                    // Log the exception
+                    LogError(ex); // You can implement a method to log the error details (e.g., Log to file or database)
 
                     transaction.Rollback();
                     return "Payment failed. Please try again later.";
                 }
             }
         }
+
+        private void LogError(Exception ex)
+        {
+            string logFilePath = @"C:\Logs\PaymentServiceErrorLog.txt";  // Specify your log file path
+            string errorMessage = $"{DateTime.Now}: {ex.Message}\n{ex.StackTrace}\n";
+            File.AppendAllText(logFilePath, errorMessage);
+        }
+
 
 
         [WebMethod]

@@ -1,0 +1,80 @@
+﻿
+/* Heading styling */
+h2 {
+   
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Label styling */
+label {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 6px;
+    display: block;
+}
+
+/* Dropdown menu styling */
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 14px;
+}
+
+    select:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+
+/* Textbox styling */
+input[type="text"], input[type="password"], input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+    input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+
+/* Button styling */
+input[type="button"], input[type="submit"], button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    input[type="button"]:hover, input[type="submit"]:hover, button:hover {
+        background-color: #0056b3;
+    }
+
+/* Error message styling */
+span#errorMessage {
+    color: red;
+    font-size: 14px;
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+}
+
+/* Literal text styling */
+.literal-text {
+    font-size: 14px;
+    color: #333;
+    margin-top: 20px;
+    text-align: center;
+}

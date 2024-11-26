@@ -1,16 +1,30 @@
-﻿<%@ Page Title="User Dashboard" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="SagicorAccount.Account.WebForm1" %>
+﻿<%@ Page Title="User Profile" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="SagicorAccount.Account.WebForm1" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <div class="container">
-        <h2>Welcome to Your Dashboard</h2>
-        <hr />
-        
-        <!-- Display User's Full Name and User ID -->
-        <div>
-            <asp:Label ID="lblUserID" runat="server" Text="User ID:"></asp:Label><br />
-            <asp:Label ID="lblFullName" runat="server" Text="Name:"></asp:Label>
+    <h2><strong>User Profile</strong></h2><br />
+
+    <!-- User Information Section -->
+    <div style="padding: 15px;  border-radius: 8px; border: 1px solid #ddd; max-width: 500px; ">
+        <div style="margin-bottom: 10px;">
+            <strong> User ID: </strong>
+            <asp:Label ID="lblUserID" runat="server" Text="User ID: "></asp:Label>
         </div>
 
-        <!-- Additional user dashboard content goes here -->
-    </div>
+        <div style="margin-bottom: 10px;">
+            <strong>Name: </strong>
+            <asp:Label ID="lblFullName" runat="server" Text="Name: "></asp:Label>
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            <strong>Username: </strong>
+            <asp:Label ID="lblUserName" runat="server" Text="Username: "></asp:Label>
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            <strong>Email: </strong>
+            <asp:Label ID="lblEmail" runat="server" Text="Email: "></asp:Label>
+        </div>
+
+        
+    </div><br /><br />
 </asp:Content>

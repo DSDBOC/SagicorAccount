@@ -1,7 +1,8 @@
 ﻿<%@ Page Title="Add Bank Account" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="AddBankAccount.aspx.cs" Inherits="SagicorAccount.Account.AddBankAccount" %>
 
 <asp:Content runat="server" ID="BodyContent" ContentPlaceHolderID="MainContent">
-    <h2>Add Bank Account</h2>
+     <link rel="stylesheet" type="text/css" href="../StyleSheets/LinkAcc.css" />
+    <h2>Add Bank Account</h2><hr />
     <asp:Label ID="SuccessMessage" runat="server" ForeColor="Green" Visible="false" Text="Bank account added successfully."></asp:Label>
     <asp:Label ID="ErrorMessage" runat="server" ForeColor="Red" Visible="false"></asp:Label>
 
@@ -20,7 +21,7 @@
         </div>
         <div class="form-group">
             <label for="DisplayName">Display Name:</label>
-            <asp:TextBox ID="DisplayName" runat="server" CssClass="form-control" Placeholder="Enter display name"></asp:TextBox>
+            <asp:TextBox ID="DisplayName" runat="server" CssClass="form-control" Placeholder="Enter display name"></asp:TextBox><br />
         </div>
         <asp:Button ID="AddAccountButton" runat="server" Text="Add Account" CssClass="btn btn-primary" OnClick="AddAccountButton_Click" />
     </asp:Panel>
