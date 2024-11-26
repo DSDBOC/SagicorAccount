@@ -84,87 +84,78 @@ namespace SagicorAccount.Account
         // Method to handle payment submission
         protected void btnSubmitPayment_Click(object sender, EventArgs e)
         {
-            // Get the selected bank account ID and the entered payment details
-            string selectedAccountID = ddlLinkedAccounts.SelectedValue;
-            string flowAccountNumber = ddlFlowAccountNumber.SelectedItem.Text;
-            decimal paymentAmount;
+            // Get the logged-in user ID
+            string userID = Session["UserID"] as string;
+            int accountID = int.Parse(ddlLinkedAccounts.SelectedValue);
+            decimal paymentAmount = decimal.Parse(txtPaymentAmount.Text);
 
-            // Validate the payment amount
-            if (decimal.TryParse(txtPaymentAmount.Text.Trim(), out paymentAmount) && paymentAmount > 0)
+            // Start a SQL transaction to ensure both updates are atomic
+            using (SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["SagicorLifeConnectionString"].ConnectionString))
             {
-                // Ensure an account is selected
-                if (string.IsNullOrEmpty(selectedAccountID))
-                {
-                    lblPaymentStatus.Text = "Please select a linked bank account.";
-                    lblPaymentStatus.CssClass = "text-danger";
-                    return;
-                }
-
-                // Validate the Flow account number
-                if (string.IsNullOrEmpty(flowAccountNumber))
-                {
-                    lblPaymentStatus.Text = "Please enter a Flow account number.";
-                    lblPaymentStatus.CssClass = "text-danger";
-                    return;
-                }
+                conn.Open();
+                SqlTransaction transaction = conn.BeginTransaction();
 
                 try
                 {
-                    // Database operation: insert transaction into BankTransactions
-                    string query = "INSERT INTO BankTransactions (UserID, BankAccountID, Amount, TransactionType, Date, Narrative) " +
-                                   "VALUES (@UserID, @BankAccountID, @Amount, @TransactionType, @Date, @Narrative)";
-
-                    // Prepare connection
-                    using (SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["SagicorLifeConnectionString"].ConnectionString))
+                    // 1. Update the BankAccount (Deduct from user account)
+                    string updateBankAccountQuery = "UPDATE BankAccounts SET Balance = Balance - @Amount WHERE AccountID = @AccountID AND UserID = @UserID";
+                    using (SqlCommand cmd = new SqlCommand(updateBankAccountQuery, conn, transaction))
                     {
-                        using (SqlCommand cmd = new SqlCommand(query, conn))
+                        cmd.Parameters.AddWithValue("@Amount", paymentAmount);
+                        cmd.Parameters.AddWithValue("@AccountID", accountID);
+                        cmd.Parameters.AddWithValue("@UserID", userID);
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        if (rowsAffected == 0)
                         {
-                            cmd.Parameters.AddWithValue("@UserID", Session["UserID"].ToString());
-                            cmd.Parameters.AddWithValue("@BankAccountID", selectedAccountID);
-                            cmd.Parameters.AddWithValue("@Amount", paymentAmount);
-                            cmd.Parameters.AddWithValue("@TransactionType", "Payment");
-                            cmd.Parameters.AddWithValue("@Date", DateTime.Now);
-                            cmd.Parameters.AddWithValue("@Narrative", "Payment to Flow Account: " + flowAccountNumber);
-
-                            conn.Open();
-                            cmd.ExecuteNonQuery();
+                            throw new Exception("Failed to update BankAccount balance.");
                         }
                     }
 
-                    // Deduct the amount from the bank account balance
-                    string updateBalanceQuery = "UPDATE BankAccounts SET Balance = Balance - @Amount WHERE AccountID = @BankAccountID";
-
-                    using (SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["SagicorLifeConnectionString"].ConnectionString))
+                    // 2. Update the LinkedAccount (Add to linked account balance)
+                    string updateLinkedAccountQuery = "UPDATE LinkedAccounts SET Balance = Balance + @Amount WHERE BankAccountID = @AccountID AND UserID = @UserID";
+                    using (SqlCommand cmd = new SqlCommand(updateLinkedAccountQuery, conn, transaction))
                     {
-                        using (SqlCommand cmd = new SqlCommand(updateBalanceQuery, conn))
+                        cmd.Parameters.AddWithValue("@Amount", paymentAmount);
+                        cmd.Parameters.AddWithValue("@AccountID", accountID);
+                        cmd.Parameters.AddWithValue("@UserID", userID);
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        if (rowsAffected == 0)
                         {
-                            cmd.Parameters.AddWithValue("@Amount", paymentAmount);
-                            cmd.Parameters.AddWithValue("@BankAccountID", selectedAccountID);
-
-                            conn.Open();
-                            cmd.ExecuteNonQuery();
+                            throw new Exception("Failed to update LinkedAccount balance.");
                         }
                     }
 
-                    // Simulate successful payment
-                    lblPaymentStatus.Text = "Payment of " + paymentAmount.ToString("C") + " was successful!";
+                    // 3. Optionally, log the transaction (if needed)
+                    string transactionLogQuery = "INSERT INTO BankTransactions (UserID, BankAccountID, Amount, TransactionType, Date, Narrative) " +
+                                                 "VALUES (@UserID, @AccountID, @Amount, 'Payment', @Date, 'Payment to linked account')";
+                    using (SqlCommand cmd = new SqlCommand(transactionLogQuery, conn, transaction))
+                    {
+                        cmd.Parameters.AddWithValue("@Amount", paymentAmount);
+                        cmd.Parameters.AddWithValue("@AccountID", accountID);
+                        cmd.Parameters.AddWithValue("@UserID", userID);
+                        cmd.Parameters.AddWithValue("@Date", DateTime.Now);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // Commit transaction if all queries were successful
+                    transaction.Commit();
+
+                    // Display success message
+                    lblPaymentStatus.Text = "Payment successful!";
                     lblPaymentStatus.CssClass = "text-success";
-                    lblPaymentStatus.Visible = true;
                 }
                 catch (Exception ex)
                 {
-                    lblPaymentStatus.Text = "Payment failed: " + ex.Message;
+                    // Rollback transaction if any error occurs
+                    transaction.Rollback();
+
+                    // Display error message
+                    lblPaymentStatus.Text = "Error: " + ex.Message;
                     lblPaymentStatus.CssClass = "text-danger";
-                    lblPaymentStatus.Visible = true;
                 }
             }
-            else
-            {
-                lblPaymentStatus.Text = "Please enter a valid payment amount.";
-                lblPaymentStatus.CssClass = "text-danger";
-                lblPaymentStatus.Visible = true;
-            }
         }
+
 
         private void PopulateFlowAccountDropdown()
         {
