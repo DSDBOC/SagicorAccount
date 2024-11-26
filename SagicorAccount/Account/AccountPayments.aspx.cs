@@ -112,29 +112,38 @@ namespace SagicorAccount.Account
         {
             // Get the logged-in user ID
             string userID = Session["UserID"] as string;
+            if (string.IsNullOrEmpty(userID))
+            {
+                lblPaymentStatus.Text = "Error: User not logged in.";
+                lblPaymentStatus.CssClass = "text-danger";
+                return;
+            }
+
+            // Parse user inputs
             int bankAccountID = int.Parse(ddlLinkedAccounts.SelectedValue);  // Selected Bank Account ID from dropdown
-            decimal paymentAmount = decimal.Parse(txtPaymentAmount.Text);  // Payment amount entered by user
+            decimal paymentAmount = decimal.Parse(txtPaymentAmount.Text);    // Payment amount entered by user
 
             // Ensure that the selected LinkedAccount is valid
             int linkedAccountID = GetLinkedAccountID(userID, bankAccountID);
-
             if (linkedAccountID == 0)
             {
-                // No valid linked account found for the selected bank account
                 lblPaymentStatus.Text = "Error: No linked account found for the selected bank account.";
                 lblPaymentStatus.CssClass = "text-danger";
                 return;
             }
 
-            // Start a SQL transaction to ensure both updates are atomic
-            using (SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["SagicorLifeConnectionString"].ConnectionString))
+            // Define connection string
+            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["SagicorLifeConnectionString"].ConnectionString;
+
+            // Use transaction for atomic updates
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                SqlTransaction transaction = conn.BeginTransaction();
+                SqlTransaction transaction = conn.BeginTransaction(); // Start transaction
 
                 try
                 {
-                    // 1. Update the BankAccount (Deduct from user account)
+                    // Update BankAccount (Deduct from user account)
                     string updateBankAccountQuery = "UPDATE BankAccounts SET Balance = Balance - @Amount WHERE AccountID = @BankAccountID AND UserID = @UserID";
                     using (SqlCommand cmd = new SqlCommand(updateBankAccountQuery, conn, transaction))
                     {
@@ -142,13 +151,12 @@ namespace SagicorAccount.Account
                         cmd.Parameters.AddWithValue("@BankAccountID", bankAccountID);
                         cmd.Parameters.AddWithValue("@UserID", userID);
                         int rowsAffected = cmd.ExecuteNonQuery();
+
                         if (rowsAffected == 0)
-                        {
                             throw new Exception("Failed to update BankAccount balance.");
-                        }
                     }
 
-                    // 2. Update the specific LinkedAccount (Add to the selected linked account balance)
+                    // Update LinkedAccount (Add to linked account balance)
                     string updateLinkedAccountQuery = "UPDATE LinkedAccounts SET Balance = Balance + @Amount WHERE LinkID = @LinkedAccountID AND BankAccountID = @BankAccountID AND UserID = @UserID";
                     using (SqlCommand cmd = new SqlCommand(updateLinkedAccountQuery, conn, transaction))
                     {
@@ -157,25 +165,24 @@ namespace SagicorAccount.Account
                         cmd.Parameters.AddWithValue("@BankAccountID", bankAccountID);
                         cmd.Parameters.AddWithValue("@UserID", userID);
                         int rowsAffected = cmd.ExecuteNonQuery();
+
                         if (rowsAffected == 0)
-                        {
                             throw new Exception("Failed to update LinkedAccount balance.");
-                        }
                     }
 
-                    // Commit transaction if all queries were successful
+                    // Commit transaction
                     transaction.Commit();
 
                     // Display success message
                     lblPaymentStatus.Text = "Payment successful!";
                     lblPaymentStatus.CssClass = "text-success";
 
-                    // Redirect to the same page to prevent form resubmission on refresh
-                    Response.Redirect(Request.Url.ToString(), true);
+                    // Redirect to prevent resubmission
+                    Response.Redirect(Request.Url.ToString(), false);
                 }
                 catch (Exception ex)
                 {
-                    // Rollback transaction if any error occurs
+                    // Rollback transaction on error
                     transaction.Rollback();
 
                     // Display error message
@@ -184,6 +191,7 @@ namespace SagicorAccount.Account
                 }
             }
         }
+
 
 
 

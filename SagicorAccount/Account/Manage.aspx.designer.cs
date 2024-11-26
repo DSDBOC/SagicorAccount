@@ -24,6 +24,15 @@ namespace SagicorAccount.Account
         protected global::System.Web.UI.WebControls.GridView gvLinkedAccounts;
 
         /// <summary>
+        /// lblLinkedAccountsStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblLinkedAccountsStatus;
+
+        /// <summary>
         /// gvBankAccounts control.
         /// </summary>
         /// <remarks>
@@ -33,6 +42,15 @@ namespace SagicorAccount.Account
         protected global::System.Web.UI.WebControls.GridView gvBankAccounts;
 
         /// <summary>
+        /// lblBankAccountsStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblBankAccountsStatus;
+
+        /// <summary>
         /// gvTransactions control.
         /// </summary>
         /// <remarks>
@@ -40,5 +58,23 @@ namespace SagicorAccount.Account
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvTransactions;
+
+        /// <summary>
+        /// lblTransactionsStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTransactionsStatus;
+
+        /// <summary>
+        /// lblError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblError;
     }
 }

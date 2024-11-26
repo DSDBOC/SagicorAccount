@@ -78,7 +78,7 @@
             <li><a class="dropdown-item" href="/Account/Manage.aspx">Management</a></li>
         </ul>
                                  <!-- Logout Button (outside the dropdown) -->
-            <li id="navLogout" class="nav-item"><a class="nav-link" href="Logout.aspx" ">Logout</a></li>
+            <li id="navLogout" class="nav-item"><a class="nav-link" href="Logout.aspx">Logout</a></li>
 
           </li>
                          
