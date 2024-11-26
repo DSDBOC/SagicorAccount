@@ -103,6 +103,15 @@ namespace SagicorAccount.Account
                 return;
             }
 
+            // Check if the FLOW account number is already linked to the user
+            if (IsFlowAccountAlreadyLinked(userId, flowAccountNumber))
+            {
+                lblMessage.Text = "This FLOW account is already linked to your account.";
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+                return;
+            }
+
+            // Proceed with linking the account since it's not already linked
             string query = "INSERT INTO LinkedAccounts (UserID, BankAccountID, FlowAccountNumber, Balance) " +
                            "VALUES (@UserID, @BankAccountID, @FlowAccountNumber, @Balance)";
 
@@ -117,15 +126,12 @@ namespace SagicorAccount.Account
                 try
                 {
                     connection.Open();
-                    int rowsAffected = command.ExecuteNonQuery(); // Executes the insert command
-                    if (rowsAffected > 0)
-                    {
-                        lblMessage.Text = "Account linked successfully!";
-                    }
-                    else
-                    {
-                        lblMessage.Text = "Failed to link the account. Please try again.";
-                    }
+                    command.ExecuteNonQuery(); // Executes the insert command
+                    lblMessage.Text = "Account linked successfully!";
+                    lblMessage.ForeColor = System.Drawing.Color.Green;
+
+                    // Refresh the linked accounts info after a successful link
+                    DisplayLinkedAccounts();
                 }
                 catch (Exception ex)
                 {
@@ -134,6 +140,35 @@ namespace SagicorAccount.Account
                 }
             }
         }
+
+        private bool IsFlowAccountAlreadyLinked(string userId, string flowAccountNumber)
+        {
+            // Check if the FLOW account number is already linked to the user
+            string query = "SELECT COUNT(*) FROM LinkedAccounts WHERE UserID = @UserID AND FlowAccountNumber = @FlowAccountNumber";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@UserID", userId);
+                command.Parameters.AddWithValue("@FlowAccountNumber", flowAccountNumber);
+
+                try
+                {
+                    connection.Open();
+                    int count = (int)command.ExecuteScalar(); // Execute the query and get the count
+
+                    // If count is greater than 0, it means the FLOW account is already linked
+                    return count > 0;
+                }
+                catch (Exception ex)
+                {
+                    lblMessage.Text = "An error occurred while checking for existing link: " + ex.Message;
+                    lblMessage.ForeColor = System.Drawing.Color.Red;
+                    return false;
+                }
+            }
+        }
+
 
         // This method retrieves bank accounts for the logged-in user
         private List<BankAccount> GetBankAccountsForUser(string userId)
