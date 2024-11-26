@@ -180,7 +180,7 @@ namespace SagicorAccount.Account
                         cmd.Parameters.AddWithValue("@Amount", paymentAmount);
                         cmd.Parameters.AddWithValue("@TransactionType", "Payment");  // Assuming this is a payment
                         cmd.Parameters.AddWithValue("@Date", DateTime.Now);
-                        cmd.Parameters.AddWithValue("@Narrative", "Payment to linked account");  // You can customize the narrative
+                        cmd.Parameters.AddWithValue("@Narrative", "Payment to FLOW account");  // You can customize the narrative
                         cmd.ExecuteNonQuery();
                     }
 
