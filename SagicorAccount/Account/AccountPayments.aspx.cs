@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.Util;
 
 namespace SagicorAccount.Account
 {
@@ -23,8 +25,60 @@ namespace SagicorAccount.Account
             {
                 LoadLinkedAccounts();
                 PopulateFlowAccountDropdown();
+                // Bind the GridView with user's transactions
+                BindTransactions();
             }
         }
+
+        private void BindTransactions()
+        {
+            string userID = Session["UserID"] as string;
+
+            if (string.IsNullOrEmpty(userID))
+            {
+                // Handle case where userID is not available (e.g., user is not logged in)
+                lblPaymentStatus.Text = "Error: User not logged in.";
+                lblPaymentStatus.CssClass = "text-danger";
+                return;
+            }
+
+            // Define SQL query to fetch transactions for the logged-in user
+            string query = "SELECT TransactionID, Amount, TransactionType, Date, Narrative FROM BankTransactions WHERE UserID = @UserID ORDER BY Date DESC";
+
+            // Setup connection and command
+            using (SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["SagicorLifeConnectionString"].ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@UserID", userID);
+
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+
+                // Bind the data to the GridView
+                gvTransactions.DataSource = dt;
+                gvTransactions.DataBind();
+            }
+        }
+
+        protected void gvTransactions_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            // Check if the row is a data row
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                // Example: Change the background color of rows based on the transaction type
+                string transactionType = DataBinder.Eval(e.Row.DataItem, "TransactionType").ToString();
+                if (transactionType == "Payment")
+                {
+                    e.Row.BackColor = System.Drawing.Color.LightGreen;
+                }
+                else if (transactionType == "Withdrawal")
+                {
+                    e.Row.BackColor = System.Drawing.Color.LightCoral;
+                }
+            }
+        }
+
 
         // Method to load the linked accounts for the logged-in user into the DropDownList
         private void LoadLinkedAccounts()
