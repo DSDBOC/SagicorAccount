@@ -14,6 +14,7 @@ namespace SagicorAccount.Account
             {
                 lblPaymentStatus.Text = "You must be logged in to make a payment.";
                 lblPaymentStatus.CssClass = "text-danger";
+                lblPaymentStatus.Visible = true;
                 return;
             }
 
@@ -21,6 +22,7 @@ namespace SagicorAccount.Account
             if (!IsPostBack)
             {
                 LoadLinkedAccounts();
+                PopulateFlowAccountDropdown();
             }
         }
 
@@ -33,6 +35,7 @@ namespace SagicorAccount.Account
             {
                 lblPaymentStatus.Text = "User not logged in.";
                 lblPaymentStatus.CssClass = "text-danger";
+                lblPaymentStatus.Visible = true;
                 return;
             }
 
@@ -71,17 +74,20 @@ namespace SagicorAccount.Account
                     {
                         lblPaymentStatus.Text = "No linked bank accounts found.";
                         lblPaymentStatus.CssClass = "text-danger";
+                        lblPaymentStatus.Visible = true;
                     }
                 }
             }
         }
+
+
 
         // Method to handle payment submission
         protected void btnSubmitPayment_Click(object sender, EventArgs e)
         {
             // Get the selected bank account ID and the entered payment details
             string selectedAccountID = ddlLinkedAccounts.SelectedValue;
-            string flowAccountNumber = txtFlowAccountNumber.Text.Trim();
+            string flowAccountNumber = ddlFlowAccountNumber.SelectedItem.Text;
             decimal paymentAmount;
 
             // Validate the payment amount
@@ -105,10 +111,43 @@ namespace SagicorAccount.Account
 
                 try
                 {
-                    // Process the payment here (e.g., update the BankTransactions table, deduct from the account balance, etc.)
-                    // For now, we assume the payment processing is done successfully
+                    // Database operation: insert transaction into BankTransactions
+                    string query = "INSERT INTO BankTransactions (UserID, BankAccountID, Amount, TransactionType, Date, Narrative) " +
+                                   "VALUES (@UserID, @BankAccountID, @Amount, @TransactionType, @Date, @Narrative)";
 
-                    // Simulating successful payment (you would call your payment service here)
+                    // Prepare connection
+                    using (SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["SagicorLifeConnectionString"].ConnectionString))
+                    {
+                        using (SqlCommand cmd = new SqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@UserID", Session["UserID"].ToString());
+                            cmd.Parameters.AddWithValue("@BankAccountID", selectedAccountID);
+                            cmd.Parameters.AddWithValue("@Amount", paymentAmount);
+                            cmd.Parameters.AddWithValue("@TransactionType", "Payment");
+                            cmd.Parameters.AddWithValue("@Date", DateTime.Now);
+                            cmd.Parameters.AddWithValue("@Narrative", "Payment to Flow Account: " + flowAccountNumber);
+
+                            conn.Open();
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    // Deduct the amount from the bank account balance
+                    string updateBalanceQuery = "UPDATE BankAccounts SET Balance = Balance - @Amount WHERE AccountID = @BankAccountID";
+
+                    using (SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["SagicorLifeConnectionString"].ConnectionString))
+                    {
+                        using (SqlCommand cmd = new SqlCommand(updateBalanceQuery, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@Amount", paymentAmount);
+                            cmd.Parameters.AddWithValue("@BankAccountID", selectedAccountID);
+
+                            conn.Open();
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    // Simulate successful payment
                     lblPaymentStatus.Text = "Payment of " + paymentAmount.ToString("C") + " was successful!";
                     lblPaymentStatus.CssClass = "text-success";
                     lblPaymentStatus.Visible = true;
@@ -127,5 +166,53 @@ namespace SagicorAccount.Account
                 lblPaymentStatus.Visible = true;
             }
         }
+
+        private void PopulateFlowAccountDropdown()
+        {
+            string userId = Session["UserID"]?.ToString(); // Assuming the user ID is stored in session
+
+            if (!string.IsNullOrEmpty(userId))
+            {
+                // Query to fetch the linked FlowAccountNumbers for the logged-in user
+                string query = "SELECT LinkID, FlowAccountNumber FROM LinkedAccounts WHERE UserID = @UserID";
+
+                // Use a connection string from your web.config
+                using (SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["SagicorLifeConnectionString"].ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@UserID", userId);
+
+                        try
+                        {
+                            conn.Open();
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                // Clear existing items in the DropDownList
+                                ddlFlowAccountNumber.Items.Clear();
+                                ddlFlowAccountNumber.Items.Add(new ListItem("Select Flow Account", ""));
+
+                                // Populate the dropdown with linked Flow Account Numbers
+                                while (reader.Read())
+                                {
+                                    string flowAccountNumber = reader["FlowAccountNumber"].ToString();
+                                    string linkId = reader["LinkID"].ToString(); // You can store LinkID in the Value field
+
+                                    ddlFlowAccountNumber.Items.Add(new ListItem(flowAccountNumber, linkId));
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            // Handle any errors here
+                            lblPaymentStatus.Text = "Error retrieving linked accounts: " + ex.Message;
+                            lblPaymentStatus.CssClass = "text-danger";
+                            lblPaymentStatus.Visible = true;
+                        }
+                    }
+                }
+            }
+        }
     }
-}
+
+    }

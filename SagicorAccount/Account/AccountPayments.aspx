@@ -16,10 +16,13 @@
                 </asp:DropDownList>
             </div>
 
-            <div class="form-group">
-                <label for="txtFlowAccountNumber">Flow Account Number</label>
-                <asp:TextBox ID="txtFlowAccountNumber" runat="server" class="form-control" placeholder="Enter Flow Account Number" />
-            </div>
+            <<div class="form-group">
+    <label for="ddlFlowAccountNumber">Select Flow Account Number</label>
+    <asp:DropDownList ID="ddlFlowAccountNumber" runat="server" class="form-control">
+        <asp:ListItem Text="Select Flow Account" Value="" />
+    </asp:DropDownList>
+</div>
+
 
             <div class="form-group">
                 <label for="txtPaymentAmount">Payment Amount</label>
@@ -31,6 +34,4 @@
             </div>
         </asp:Panel>
     </div>
-
-    
 </asp:Content>
