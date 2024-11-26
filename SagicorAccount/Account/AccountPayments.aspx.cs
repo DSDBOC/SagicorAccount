@@ -86,8 +86,19 @@ namespace SagicorAccount.Account
         {
             // Get the logged-in user ID
             string userID = Session["UserID"] as string;
-            int accountID = int.Parse(ddlLinkedAccounts.SelectedValue);
-            decimal paymentAmount = decimal.Parse(txtPaymentAmount.Text);
+            int bankAccountID = int.Parse(ddlLinkedAccounts.SelectedValue);  // Selected Bank Account ID from dropdown
+            decimal paymentAmount = decimal.Parse(txtPaymentAmount.Text);  // Payment amount entered by user
+
+            // Ensure that the selected LinkedAccount is valid
+            int linkedAccountID = GetLinkedAccountID(userID, bankAccountID);
+
+            if (linkedAccountID == 0)
+            {
+                // No valid linked account found for the selected bank account
+                lblPaymentStatus.Text = "Error: No linked account found for the selected bank account.";
+                lblPaymentStatus.CssClass = "text-danger";
+                return;
+            }
 
             // Start a SQL transaction to ensure both updates are atomic
             using (SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["SagicorLifeConnectionString"].ConnectionString))
@@ -98,11 +109,11 @@ namespace SagicorAccount.Account
                 try
                 {
                     // 1. Update the BankAccount (Deduct from user account)
-                    string updateBankAccountQuery = "UPDATE BankAccounts SET Balance = Balance - @Amount WHERE AccountID = @AccountID AND UserID = @UserID";
+                    string updateBankAccountQuery = "UPDATE BankAccounts SET Balance = Balance - @Amount WHERE AccountID = @BankAccountID AND UserID = @UserID";
                     using (SqlCommand cmd = new SqlCommand(updateBankAccountQuery, conn, transaction))
                     {
                         cmd.Parameters.AddWithValue("@Amount", paymentAmount);
-                        cmd.Parameters.AddWithValue("@AccountID", accountID);
+                        cmd.Parameters.AddWithValue("@BankAccountID", bankAccountID);
                         cmd.Parameters.AddWithValue("@UserID", userID);
                         int rowsAffected = cmd.ExecuteNonQuery();
                         if (rowsAffected == 0)
@@ -111,12 +122,13 @@ namespace SagicorAccount.Account
                         }
                     }
 
-                    // 2. Update the LinkedAccount (Add to linked account balance)
-                    string updateLinkedAccountQuery = "UPDATE LinkedAccounts SET Balance = Balance + @Amount WHERE BankAccountID = @AccountID AND UserID = @UserID";
+                    // 2. Update the specific LinkedAccount (Add to the selected linked account balance)
+                    string updateLinkedAccountQuery = "UPDATE LinkedAccounts SET Balance = Balance + @Amount WHERE LinkID = @LinkedAccountID AND BankAccountID = @BankAccountID AND UserID = @UserID";
                     using (SqlCommand cmd = new SqlCommand(updateLinkedAccountQuery, conn, transaction))
                     {
                         cmd.Parameters.AddWithValue("@Amount", paymentAmount);
-                        cmd.Parameters.AddWithValue("@AccountID", accountID);
+                        cmd.Parameters.AddWithValue("@LinkedAccountID", linkedAccountID);
+                        cmd.Parameters.AddWithValue("@BankAccountID", bankAccountID);
                         cmd.Parameters.AddWithValue("@UserID", userID);
                         int rowsAffected = cmd.ExecuteNonQuery();
                         if (rowsAffected == 0)
@@ -127,11 +139,11 @@ namespace SagicorAccount.Account
 
                     // 3. Optionally, log the transaction (if needed)
                     string transactionLogQuery = "INSERT INTO BankTransactions (UserID, BankAccountID, Amount, TransactionType, Date, Narrative) " +
-                                                 "VALUES (@UserID, @AccountID, @Amount, 'Payment', @Date, 'Payment to linked account')";
+                                                 "VALUES (@UserID, @BankAccountID, @Amount, 'Payment', @Date, 'Payment to linked account')";
                     using (SqlCommand cmd = new SqlCommand(transactionLogQuery, conn, transaction))
                     {
                         cmd.Parameters.AddWithValue("@Amount", paymentAmount);
-                        cmd.Parameters.AddWithValue("@AccountID", accountID);
+                        cmd.Parameters.AddWithValue("@BankAccountID", bankAccountID);
                         cmd.Parameters.AddWithValue("@UserID", userID);
                         cmd.Parameters.AddWithValue("@Date", DateTime.Now);
                         cmd.ExecuteNonQuery();
@@ -155,6 +167,33 @@ namespace SagicorAccount.Account
                 }
             }
         }
+
+        // Method to retrieve the LinkedAccountID based on the UserID and BankAccountID
+        private int GetLinkedAccountID(string userID, int bankAccountID)
+        {
+            int linkedAccountID = 0;
+
+            string query = "SELECT LinkID FROM LinkedAccounts WHERE UserID = @UserID AND BankAccountID = @BankAccountID";
+
+            using (SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["SagicorLifeConnectionString"].ConnectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@UserID", userID);
+                    cmd.Parameters.AddWithValue("@BankAccountID", bankAccountID);
+
+                    object result = cmd.ExecuteScalar();
+                    if (result != null)
+                    {
+                        linkedAccountID = Convert.ToInt32(result);
+                    }
+                }
+            }
+
+            return linkedAccountID;
+        }
+
 
 
         private void PopulateFlowAccountDropdown()
