@@ -34,18 +34,5 @@
             </div>
         </asp:Panel>
 
-        <!-- GridView for Bank Transactions -->
-        <div class="mt-5">
-            <h3>Your Recent Transactions</h3>
-            <asp:GridView ID="gvTransactions" runat="server" CssClass="table table-bordered" AutoGenerateColumns="False" OnRowDataBound="gvTransactions_RowDataBound">
-                <Columns>
-                    <asp:BoundField DataField="TransactionID" HeaderText="Transaction ID" SortExpression="TransactionID" />
-                    <asp:BoundField DataField="Amount" HeaderText="Amount" SortExpression="Amount" />
-                    <asp:BoundField DataField="TransactionType" HeaderText="Transaction Type" SortExpression="TransactionType" />
-                    <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date" DataFormatString="{0:MM/dd/yyyy}" />
-                    <asp:BoundField DataField="Narrative" HeaderText="Narrative" SortExpression="Narrative" />
-                </Columns>
-            </asp:GridView>
-        </div>
     </div>
 </asp:Content>

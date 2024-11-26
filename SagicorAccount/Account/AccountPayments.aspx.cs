@@ -11,6 +11,8 @@ namespace SagicorAccount.Account
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            
+
             // Ensure the user is logged in before processing payment
             if (Session["UserID"] == null)
             {
@@ -25,41 +27,11 @@ namespace SagicorAccount.Account
             {
                 LoadLinkedAccounts();
                 PopulateFlowAccountDropdown();
-                // Bind the GridView with user's transactions
-                BindTransactions();
+                
             }
         }
 
-        private void BindTransactions()
-        {
-            string userID = Session["UserID"] as string;
-
-            if (string.IsNullOrEmpty(userID))
-            {
-                // Handle case where userID is not available (e.g., user is not logged in)
-                lblPaymentStatus.Text = "Error: User not logged in.";
-                lblPaymentStatus.CssClass = "text-danger";
-                return;
-            }
-
-            // Define SQL query to fetch transactions for the logged-in user
-            string query = "SELECT TransactionID, Amount, TransactionType, Date, Narrative FROM BankTransactions WHERE UserID = @UserID ORDER BY Date DESC";
-
-            // Setup connection and command
-            using (SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["SagicorLifeConnectionString"].ConnectionString))
-            {
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@UserID", userID);
-
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-
-                // Bind the data to the GridView
-                gvTransactions.DataSource = dt;
-                gvTransactions.DataBind();
-            }
-        }
+        
 
         protected void gvTransactions_RowDataBound(object sender, GridViewRowEventArgs e)
         {
@@ -138,27 +110,23 @@ namespace SagicorAccount.Account
         // Method to handle payment submission
         protected void btnSubmitPayment_Click(object sender, EventArgs e)
         {
+            // Get the logged-in user ID
             string userID = Session["UserID"] as string;
-            if (string.IsNullOrEmpty(userID))
-            {
-                lblPaymentStatus.Text = "Error: User ID is missing.";
-                lblPaymentStatus.CssClass = "text-danger";
-                return;
-            }
-
-            int bankAccountID = int.Parse(ddlLinkedAccounts.SelectedValue);
-            decimal paymentAmount = decimal.Parse(txtPaymentAmount.Text);
+            int bankAccountID = int.Parse(ddlLinkedAccounts.SelectedValue);  // Selected Bank Account ID from dropdown
+            decimal paymentAmount = decimal.Parse(txtPaymentAmount.Text);  // Payment amount entered by user
 
             // Ensure that the selected LinkedAccount is valid
             int linkedAccountID = GetLinkedAccountID(userID, bankAccountID);
 
             if (linkedAccountID == 0)
             {
+                // No valid linked account found for the selected bank account
                 lblPaymentStatus.Text = "Error: No linked account found for the selected bank account.";
                 lblPaymentStatus.CssClass = "text-danger";
                 return;
             }
 
+            // Start a SQL transaction to ensure both updates are atomic
             using (SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["SagicorLifeConnectionString"].ConnectionString))
             {
                 conn.Open();
@@ -166,7 +134,7 @@ namespace SagicorAccount.Account
 
                 try
                 {
-                    // 1. Update the BankAccount
+                    // 1. Update the BankAccount (Deduct from user account)
                     string updateBankAccountQuery = "UPDATE BankAccounts SET Balance = Balance - @Amount WHERE AccountID = @BankAccountID AND UserID = @UserID";
                     using (SqlCommand cmd = new SqlCommand(updateBankAccountQuery, conn, transaction))
                     {
@@ -180,7 +148,7 @@ namespace SagicorAccount.Account
                         }
                     }
 
-                    // 2. Update the LinkedAccount
+                    // 2. Update the specific LinkedAccount (Add to the selected linked account balance)
                     string updateLinkedAccountQuery = "UPDATE LinkedAccounts SET Balance = Balance + @Amount WHERE LinkID = @LinkedAccountID AND BankAccountID = @BankAccountID AND UserID = @UserID";
                     using (SqlCommand cmd = new SqlCommand(updateLinkedAccountQuery, conn, transaction))
                     {
@@ -195,34 +163,30 @@ namespace SagicorAccount.Account
                         }
                     }
 
-                    // 3. Log the transaction
-                    string transactionLogQuery = "INSERT INTO BankTransactions (UserID, BankAccountID, Amount, TransactionType, Date, Narrative) " +
-                                                 "VALUES (@UserID, @BankAccountID, @Amount, 'Payment', @Date, 'Payment to linked account')";
-                    using (SqlCommand cmd = new SqlCommand(transactionLogQuery, conn, transaction))
-                    {
-                        cmd.Parameters.AddWithValue("@Amount", paymentAmount);
-                        cmd.Parameters.AddWithValue("@BankAccountID", bankAccountID);
-                        cmd.Parameters.AddWithValue("@UserID", userID);
-                        cmd.Parameters.AddWithValue("@Date", DateTime.Now);
-                        cmd.ExecuteNonQuery();
-                    }
-
-                    // Commit transaction
+                    // Commit transaction if all queries were successful
                     transaction.Commit();
 
-                    // Success message
+                    // Display success message
                     lblPaymentStatus.Text = "Payment successful!";
                     lblPaymentStatus.CssClass = "text-success";
+
+                    // Redirect to the same page to prevent form resubmission on refresh
+                    Response.Redirect(Request.Url.ToString(), true);
                 }
                 catch (Exception ex)
                 {
                     // Rollback transaction if any error occurs
                     transaction.Rollback();
+
+                    // Display error message
                     lblPaymentStatus.Text = "Error: " + ex.Message;
                     lblPaymentStatus.CssClass = "text-danger";
                 }
             }
         }
+
+
+
 
 
         // Method to retrieve the LinkedAccountID based on the UserID and BankAccountID

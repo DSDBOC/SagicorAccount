@@ -75,14 +75,22 @@
             <li><a class="dropdown-item" href="/Account/LinkingAcc.aspx">Link Accounts</a></li>
             <li><a class="dropdown-item" href="/Account/AccountPayments.aspx">Make Payments</a></li>
             <li><a class="dropdown-item" href="/Account/ViewBankAccountDetails.aspx">View Bank Accounts</a></li>
-            <li><a class="dropdown-item" href="/Account/Manage.aspx">Settings</a></li>
+            <li><a class="dropdown-item" href="/Account/Manage.aspx">Management</a></li>
         </ul>
-    </li>
-</ul>
+                                 <!-- Logout Button (outside the dropdown) -->
+            <li id="navLogout" class="nav-item"><a class="nav-link" href="Logout.aspx" ">Logout</a></li>
+
+          </li>
+                         
+
+        </ul>
 
                 </div>
             </div>
         </nav>
+
+
+
         <div class="container body-content">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
