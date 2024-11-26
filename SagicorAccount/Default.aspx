@@ -2,43 +2,40 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
-    <main>
-        <section class="row" aria-labelledby="aspnetTitle">
-            <h1 id="aspnetTitle">ASP.NET</h1>
-            <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-            <p><a href="http://www.asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-        </section>
+      <link rel="stylesheet" type="text/css" href="StyleSheets/Default.css" />
 
-        <div class="row">
+    <main>
+        <!-- Title Section -->
+        <section class="intro-section text-center" aria-labelledby="aspnetTitle">
+            <h1 id="aspnetTitle" class="page-title">FlexiPay</h1>
+            <p class="lead-text">"Pay Smarter, Live Easier – Your Bills, Your Bank, One Click."</p>
+        </section>
+        <br>
+        <!-- Main Content Section -->
+        <div class="row content-sections">
             <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-                <h2 id="gettingStartedTitle">Getting started</h2>
-                <p>
-                    ASP.NET Web Forms lets you build dynamic websites using a familiar drag-and-drop, event-driven model.
-                A design surface and hundreds of controls and components let you rapidly build sophisticated, powerful UI-driven sites with data access.
-                </p>
-                <p>
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301948">Learn more &raquo;</a>
+                <h2 id="gettingStartedTitle" class="section-title">Online Bill Payment</h2>
+                <p class="section-text">
+                   A secure and convenient way to pay your bills online, directly from your bank account to your FLOW accounts.
                 </p>
             </section>
+
             <section class="col-md-4" aria-labelledby="librariesTitle">
-                <h2 id="librariesTitle">Get more libraries</h2>
-                <p>
-                    NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.
-                </p>
-                <p>
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301949">Learn more &raquo;</a>
+                <h2 id="librariesTitle" class="section-title">Log In to Your Account</h2>
+                <p class="section-text">
+                   Access your online banking profile to securely manage your accounts and payments. Login with your username and password to get started.
                 </p>
             </section>
+
             <section class="col-md-4" aria-labelledby="hostingTitle">
-                <h2 id="hostingTitle">Web Hosting</h2>
-                <p>
-                    You can easily find a web hosting company that offers the right mix of features and price for your applications.
-                </p>
-                <p>
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301950">Learn more &raquo;</a>
+                <h2 id="hostingTitle" class="section-title">Link Account</h2>
+                <p class="section-text">
+                    Once your account is linked, you can make payments to your FLOW account directly through the online banking platform.
+                    Your transaction will be reflected in both your bank account and the linked account.
                 </p>
             </section>
         </div>
+
     </main>
 
 </asp:Content>

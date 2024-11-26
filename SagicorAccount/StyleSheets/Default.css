@@ -1,93 +1,198 @@
-﻿body {
-    background-color: #f4f7fa; /* Light background for a banking feel */
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    color: #333; /* Default text color */
+﻿/* General Styles */
+html, body {
     margin: 0;
     padding: 0;
+    height: 100%; /* Ensure full height for body and html */
+    background-color: #f1f4f8;
+}
+
+body {
+    font-family: 'Georgia', serif;
+    color: #333;
     position: relative;
 }
 
-    /* Blended background that scrolls with the page */
-    body::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: url('https://png.pngtree.com/background/20220725/original/pngtree-people-pay-bills-mobile-banking-picture-image_1776738.jpg');
-        background-size: cover; /* Ensures the image covers the entire page */
-        background-position: center; /* Centers the image */
-        background-repeat: no-repeat; /* Ensures the image doesn't repeat */
-        opacity: 0.5; /* Adjust opacity for blending */
-        z-index: -1; /* Make sure the background stays behind the content */
+main {
+    padding: 40px 15px;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* Title Section */
+.intro-section {
+    background-color: rgba(0, 51, 102, 0.9);
+    color: white;
+    padding: 50px 20px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+    animation: fadeIn 2s ease-in-out;
+}
+
+.page-title {
+    font-size: 55px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: 3px;
+    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5);
+    animation: slideIn 1s ease-out;
+}
+
+.lead-text {
+    font-size: 22px;
+    margin-bottom: 20px;
+    font-style: italic;
+    opacity: 0;
+    animation: fadeInText 2s ease-in-out 1s forwards;
+}
+
+/* Content Section */
+.content-sections {
+    margin-top: 50px;
+    animation: fadeIn 2s ease-in-out 0.5s forwards;
+}
+
+.section-title {
+    font-size: 26px;
+    color: #000000; /* Black color */
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+    transition: color 0.3s ease-in-out;
+    animation: slideIn 1s ease-out 1s forwards;
+}
+
+    .section-title:hover {
+        color: #000000; /* No hover color change */
     }
 
-.card {
-    border-radius: 10px;
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
-    background-color: white; /* White background for cards to make the text stand out */
+.section-text {
+    font-size: 18px;
+    color: #333;
+    line-height: 1.8;
+    opacity: 0;
+    animation: fadeInText 1.5s ease-in-out 1s forwards;
 }
 
-h2 {
-    font-size: 24px;
-    color: #003366; /* Dark blue color, often associated with trust and professionalism in banking */
-}
-
-.text-center {
-    text-align: center;
-}
-
+/* Button Styles */
 .btn-primary {
-    background-color: #003366; /* Dark blue for buttons */
-    border-color: #003366;
+    background-color: #003366;
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-size: 18px;
+    text-transform: uppercase;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    animation: bounceIn 1s ease-out 2s forwards;
 }
 
     .btn-primary:hover {
-        background-color: #0056b3;
-        border-color: #004085;
+        background-color: #004d99;
+        transform: scale(1.05);
     }
 
-a {
-    color: #003366;
+.btn-secondary {
+    background-color: #00aaff;
+    color: white;
+    padding: 12px 24px;
+    font-size: 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-    a:hover {
-        color: #0056b3;
-        text-decoration: underline;
+    .btn-secondary:hover {
+        background-color: #007acc;
+        transform: scale(1.05);
     }
 
-.form-label {
-    font-weight: bold;
-    color: #333;
+/* Responsive Design */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 40px;
+    }
+
+    .lead-text {
+        font-size: 18px;
+    }
+
+    .section-title {
+        font-size: 22px;
+    }
+
+    .section-text {
+        font-size: 16px;
+    }
+
+    .btn-primary, .btn-secondary {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
 }
 
-.w-100 {
-    width: 100%;
+/* Background Image Styling */
+body {
+    background-image: url('https://www.shutterstock.com/image-vector/abstract-financial-chart-line-graph-600nw-652280932.jpg');
+    background-size: cover; /* Ensure the image covers the entire background */
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 150vh; /* Ensure the image covers the full viewport height */
 }
 
-.mb-3 {
-    margin-bottom: 1rem;
+/* Keyframe Animations */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.shadow-sm {
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
-.container {
-    max-width: 960px;
+@keyframes fadeInText {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
-.form-control {
-    border-radius: 0.375rem; /* Rounded input fields */
-    border: 1px solid #ccc;
-}
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
 
-.text-danger {
-    font-size: 0.875rem;
-    color: #dc3545;
-}
+    60% {
+        transform: scale(1.1);
+    }
 
-hr {
-    border-top: 2px solid #003366;
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }

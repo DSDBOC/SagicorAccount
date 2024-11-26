@@ -28,7 +28,7 @@ namespace SagicorAccount.Account
             var existingAccounts = new[]
             {
                 new { Name = "John Doe", flowAccountNumber = "12345", AccountType = "Savings", Balance = 1000.50m },
-                new { Name = "Jane Smith", flowAccountNumber = "67890", AccountType = "Checking", Balance = 1500.00m },
+                new { Name = "Mia Pope", flowAccountNumber = "67890", AccountType = "Checking", Balance = 1500.00m },
                 new { Name = "Alice Johnson", flowAccountNumber = "11223", AccountType = "Savings", Balance = 500.00m },
                 new { Name = "Bob Brown", flowAccountNumber = "44556", AccountType = "Checking", Balance = 2000.75m }
             };

@@ -13,7 +13,7 @@ namespace SagicorAccount.Account
     [System.ComponentModel.ToolboxItem(false)]
     public class PaymentService : System.Web.Services.WebService
     {
-        
+
         private readonly string connectionString = ConfigurationManager.ConnectionStrings["SagicorLifeConnectionString"].ConnectionString;
 
         [WebMethod]
