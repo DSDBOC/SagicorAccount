@@ -11,35 +11,35 @@ namespace SagicorAccount.Account
 {
 
 
-    public partial class LinkingAcc
+    public partial class AccountPayments
     {
 
         /// <summary>
-        /// lblSelectBankAccount control.
+        /// lblPaymentStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblSelectBankAccount;
+        protected global::System.Web.UI.WebControls.Label lblPaymentStatus;
 
         /// <summary>
-        /// ddlBankAccounts control.
+        /// pnlPaymentForm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlBankAccounts;
+        protected global::System.Web.UI.WebControls.Panel pnlPaymentForm;
 
         /// <summary>
-        /// lblFlowAccountNumber control.
+        /// ddlLinkedAccounts control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFlowAccountNumber;
+        protected global::System.Web.UI.WebControls.DropDownList ddlLinkedAccounts;
 
         /// <summary>
         /// txtFlowAccountNumber control.
@@ -51,30 +51,21 @@ namespace SagicorAccount.Account
         protected global::System.Web.UI.WebControls.TextBox txtFlowAccountNumber;
 
         /// <summary>
-        /// btnLinkAccount control.
+        /// txtPaymentAmount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnLinkAccount;
+        protected global::System.Web.UI.WebControls.TextBox txtPaymentAmount;
 
         /// <summary>
-        /// lblMessage control.
+        /// btnSubmitPayment control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMessage;
-
-        /// <summary>
-        /// litLinkedAccountInfo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litLinkedAccountInfo;
+        protected global::System.Web.UI.WebControls.Button btnSubmitPayment;
     }
 }

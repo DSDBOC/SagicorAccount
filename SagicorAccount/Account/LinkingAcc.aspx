@@ -19,4 +19,9 @@
     
     <br /> <br />
     <asp:Label ID="lblMessage" runat="server" ForeColor="Red" />
+
+    <br /><br />
+
+    <asp:Literal ID="litLinkedAccountInfo" runat="server"></asp:Literal>
+
 </asp:Content>

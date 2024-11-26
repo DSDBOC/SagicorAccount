@@ -20,6 +20,9 @@ namespace SagicorAccount.Account
             {
                 // Populate the bank account dropdown list when the page loads
                 PopulateBankAccounts();
+
+                // Show linked account information for the user if available
+                DisplayLinkedAccounts();
             }
         }
 
@@ -67,14 +70,17 @@ namespace SagicorAccount.Account
 
                 if (accountDetails != null)
                 {
-                    // If the account exists, insert into the LinkedAccounts table (you can implement this method)
+                    // If the account exists, insert into the LinkedAccounts table
                     LinkAccountToUser(bankAccountID, flowAccountNumber, accountDetails.Balance); // Pass account balance
                     lblMessage.Text = "Account linked successfully!";
                     lblMessage.ForeColor = System.Drawing.Color.Green;
+
+                    // Refresh the linked accounts info after a successful link
+                    DisplayLinkedAccounts();
                 }
                 else
                 {
-                    lblMessage.Text = "FLOW accounts number does not exist.";
+                    lblMessage.Text = "FLOW account number does not exist.";
                     lblMessage.ForeColor = System.Drawing.Color.Red;
                 }
             }
@@ -85,7 +91,6 @@ namespace SagicorAccount.Account
                 lblMessage.ForeColor = System.Drawing.Color.Red;
             }
         }
-
 
         private void LinkAccountToUser(string bankAccountID, string flowAccountNumber, decimal balance)
         {
@@ -112,11 +117,20 @@ namespace SagicorAccount.Account
                 try
                 {
                     connection.Open();
-                    command.ExecuteNonQuery(); // Executes the insert command
+                    int rowsAffected = command.ExecuteNonQuery(); // Executes the insert command
+                    if (rowsAffected > 0)
+                    {
+                        lblMessage.Text = "Account linked successfully!";
+                    }
+                    else
+                    {
+                        lblMessage.Text = "Failed to link the account. Please try again.";
+                    }
                 }
                 catch (Exception ex)
                 {
                     lblMessage.Text = "An error occurred while linking the account: " + ex.Message;
+                    lblMessage.ForeColor = System.Drawing.Color.Red;
                 }
             }
         }
@@ -155,38 +169,80 @@ namespace SagicorAccount.Account
             return bankAccounts;
         }
 
-        // This method fetches the list of already linked accounts for the user
-        private List<string> GetLinkedAccounts()
+        private void DisplayLinkedAccounts()
         {
-            List<string> linkedAccounts = new List<string>();
-
+            // Get the current user ID from session
             string userId = Session["UserID"]?.ToString();
-            if (!string.IsNullOrEmpty(userId))
+
+            if (string.IsNullOrEmpty(userId))
             {
-                string query = "SELECT FlowAccountNumber FROM LinkedAccounts WHERE UserID = @UserID";
+                litLinkedAccountInfo.Text = "User is not logged in.";
+                return;
+            }
 
-                using (SqlConnection connection = new SqlConnection(connectionString))
+            // Fetch the linked accounts for the user from the database
+            var linkedAccounts = GetLinkedAccountsForUser(userId);
+
+            if (linkedAccounts.Count > 0)
+            {
+                // Create a string to display the linked account information
+                string accountInfo = "<h3>Linked Accounts:</h3><ul>";
+                foreach (var account in linkedAccounts)
                 {
-                    SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@UserID", userId);
+                    accountInfo += $"<li>Bank Account ID: {account.BankAccountID}, FLOW Account Number: {account.FlowAccountNumber}</li>";
+                }
+                accountInfo += "</ul>";
 
-                    try
+                litLinkedAccountInfo.Text = accountInfo;
+            }
+            else
+            {
+                litLinkedAccountInfo.Text = "No linked accounts found.";
+            }
+        }
+
+        private List<LinkedAccount> GetLinkedAccountsForUser(string userId)
+        {
+            List<LinkedAccount> linkedAccounts = new List<LinkedAccount>();
+
+            string query = "SELECT BankAccountID, FlowAccountNumber FROM LinkedAccounts WHERE UserID = @UserID";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@UserID", userId);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
                     {
-                        connection.Open();
-                        SqlDataReader reader = command.ExecuteReader();
-                        while (reader.Read())
+                        LinkedAccount linkedAccount = new LinkedAccount
                         {
-                            linkedAccounts.Add(reader.GetString(0)); // Assuming FlowAccountNumber is a string
-                        }
+                            BankAccountID = reader.GetInt32(0),
+                            // Cast FlowAccountNumber to string explicitly
+                            FlowAccountNumber = reader.GetInt64(1).ToString()  // Convert from long to string
+                        };
+                        linkedAccounts.Add(linkedAccount);
                     }
-                    catch (Exception ex)
-                    {
-                        lblMessage.Text = "An error occurred while retrieving linked accounts: " + ex.Message;
-                    }
+                }
+                catch (Exception ex)
+                {
+                    lblMessage.Text = "An error occurred while retrieving linked accounts: " + ex.Message;
+                    lblMessage.ForeColor = System.Drawing.Color.Red;
                 }
             }
 
             return linkedAccounts;
+        }
+
+
+        // LinkedAccount class to represent the data fetched from the database
+        public class LinkedAccount
+        {
+            public int BankAccountID { get; set; }
+            public string FlowAccountNumber { get; set; }
         }
 
         // Sample BankAccount class to simulate bank account data
