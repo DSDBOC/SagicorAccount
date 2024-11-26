@@ -170,6 +170,20 @@ namespace SagicorAccount.Account
                             throw new Exception("Failed to update LinkedAccount balance.");
                     }
 
+                    // Insert the transaction into the BankTransactions table
+                    string insertTransactionQuery = "INSERT INTO BankTransactions (UserID, BankAccountID, Amount, TransactionType, Date, Narrative) " +
+                                                    "VALUES (@UserID, @BankAccountID, @Amount, @TransactionType, @Date, @Narrative)";
+                    using (SqlCommand cmd = new SqlCommand(insertTransactionQuery, conn, transaction))
+                    {
+                        cmd.Parameters.AddWithValue("@UserID", userID);
+                        cmd.Parameters.AddWithValue("@BankAccountID", bankAccountID);
+                        cmd.Parameters.AddWithValue("@Amount", paymentAmount);
+                        cmd.Parameters.AddWithValue("@TransactionType", "Payment");  // Assuming this is a payment
+                        cmd.Parameters.AddWithValue("@Date", DateTime.Now);
+                        cmd.Parameters.AddWithValue("@Narrative", "Payment to linked account");  // You can customize the narrative
+                        cmd.ExecuteNonQuery();
+                    }
+
                     // Commit transaction
                     transaction.Commit();
 
@@ -191,6 +205,7 @@ namespace SagicorAccount.Account
                 }
             }
         }
+
 
 
 
@@ -271,6 +286,6 @@ namespace SagicorAccount.Account
                 }
             }
         }
-    }
+     }
 
     }
