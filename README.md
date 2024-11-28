@@ -6,14 +6,14 @@
 
 ## **Features**
 
-### 1. **Link Bank Accounts to FLOW Account**  
-   Users can link their bank account to their FLOW account to make payments.
+### 1. **Link Bank Accounts to FLOW/Sagicor Life Account**  
+   Users can link their bank account to their FLOW/Sagicor Life account to make payments.
 
 ### 2. **View Bank Account Details**  
    Users can view their existing bank accounts, including account type, account number, and balance.
 
 ### 3. **Make Payments**  
-   Users can make payments from their linked bank accounts to their FLOW accounts.
+   Users can make payments from their linked bank accounts to their FLOW/Sagicor Life accounts.
 
 ### 4. **Add Bank Accounts**  
    Users can add new bank accounts to their profile with account details and an initial balance.
